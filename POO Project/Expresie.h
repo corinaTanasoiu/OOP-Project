@@ -1,5 +1,4 @@
-﻿// Expresie.h
-#pragma once
+﻿#pragma once
 #include "VectorDinamic.h"
 
 class Expresie {
@@ -8,20 +7,20 @@ private:
     VectorDinamic vectorOperand1;
     VectorDinamic vectorOperand2;
 
-    bool esteCaracterOperand(char caracter);
+    bool esteCaracterOperand(char caracter) const;  // Adăugat const
     void parseazaExpresia();
 
     double ridicareLaPutere(double baza, double exponent);
     double extragereRadical(double radicand, double indice);
 
-    double evalueazaExpresiaRecursiv(int& index);
+    double evalueazaExpresiaRecursiv(int& index) const;  // Adăugat const
 
 public:
     Expresie();
     Expresie(const std::string& expresie);
     ~Expresie();
 
-    double evalueazaExpresia();
+    double evalueazaExpresia() const;  // Adăugat const
 
     // Supraincarcare operatori
     explicit operator double() const;  // Supraincarcare operator de cast explicit

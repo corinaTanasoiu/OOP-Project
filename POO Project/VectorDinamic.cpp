@@ -14,6 +14,10 @@ double& VectorDinamic::operator[](int index) {
     return vector[index];
 }
 
+const double& VectorDinamic::operator[](int index) const {
+    return vector[index];
+}
+
 int VectorDinamic::getDimensiune() const {
     return dimensiune;
 }

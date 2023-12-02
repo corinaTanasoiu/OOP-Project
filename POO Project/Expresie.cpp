@@ -1,4 +1,4 @@
-#include "Expresie.h"
+﻿#include "Expresie.h"
 #include <iostream>
 #include <cmath>
 #include <string>
@@ -13,7 +13,7 @@ Expresie::Expresie(const std::string& expresie) {
 
 Expresie::~Expresie() {}
 
-bool Expresie::esteCaracterOperand(char caracter) {
+bool Expresie::esteCaracterOperand(char caracter) const {
     return (caracter >= '0' && caracter <= '9') || caracter == '.' || caracter == 'v';
 }
 
@@ -45,7 +45,6 @@ void Expresie::parseazaExpresia() {
     }
 }
 
-
 double Expresie::ridicareLaPutere(double baza, double exponent) {
     return std::pow(baza, exponent);
 }
@@ -57,41 +56,42 @@ double Expresie::extragereRadical(double radicand, double indice) {
     return std::pow(radicand, 1 / indice);
 }
 
-double Expresie::evalueazaExpresia() {
-    int index = 0;
-    double rezultat = 0.0;
+double Expresie::evalueazaExpresiaRecursiv(int& index) const {
+    char caracter = getCaracterAt(index);
 
-    for (int i = 0; i < vectorCaractere.getDimensiune(); ++i) {
-        char caracter = getCaracterAt(i);
-
-        if (esteCaracterOperand(caracter)) {
-            // ...
+    if (esteCaracterOperand(caracter)) {
+        if (caracter == 'v') {
+            // Logică pentru vector (înlocuiți cu logica specifică)
+            return 0.0;  // Placeholder
         }
         else {
-            switch (caracter) {
-            case '+':
-            case '-':
-            case '*':
-            case '/':
-                // Implementa?i aici opera?iile aritmetice
-                break;
-            case '^':
-                ++index;
-                double exponent = evalueazaExpresiaRecursiv(index);
-                rezultat = ridicareLaPutere(rezultat, exponent);
-                break;
-            case 'r':
-                ++index;
-                double indice = evalueazaExpresiaRecursiv(index);
-                rezultat = extragereRadical(rezultat, indice);
-                break;
-            }
+            return std::stod(std::string(1, caracter));
         }
     }
-
-    return rezultat;
+    else {
+        switch (caracter) {
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+            // Implementați logica pentru operații aritmetice (înlocuiți cu logica specifică)
+            return 0.0;  // Placeholder
+        case '^':
+            ++index;
+            return evalueazaExpresiaRecursiv(index);
+        case 'r':
+            ++index;
+            return evalueazaExpresiaRecursiv(index);
+        default:
+            throw std::runtime_error("Caracter necunoscut în expresie.");
+        }
+    }
 }
 
+double Expresie::evalueazaExpresia() const {
+    int index = 0;
+    return evalueazaExpresiaRecursiv(index);
+}
 
 Expresie::operator double() const {
     return evalueazaExpresia();
@@ -99,7 +99,7 @@ Expresie::operator double() const {
 
 std::ostream& operator<<(std::ostream& os, const Expresie& expr) {
     os << "Expresie: ";
-    for (int i = 0; i < expr.getVectorCaractere().size(); ++i) {
+    for (int i = 0; i < expr.vectorCaractere.getDimensiune(); ++i) {
         os << expr.getCaracterAt(i);
     }
     os << std::endl;

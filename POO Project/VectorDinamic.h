@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 
 class VectorDinamic {
@@ -12,6 +12,8 @@ public:
     ~VectorDinamic();
 
     double& operator[](int index);
+    const double& operator[](int index) const;  // Adăugat const
+
     int getDimensiune() const;
 
     static VectorDinamic adunaVectori(const VectorDinamic& v1, const VectorDinamic& v2);
